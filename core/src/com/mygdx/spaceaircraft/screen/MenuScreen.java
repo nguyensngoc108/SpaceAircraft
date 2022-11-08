@@ -24,6 +24,7 @@ public class MenuScreen implements Screen {
 
     SpaceAircraftMain game;
     public MenuScreen(SpaceAircraftMain game){
+        //Menu icon
         this.game = game;
         PlayButtonA = new Texture("playButtonA.png");
         PlayButtonB = new Texture("badlogic.jpg");
