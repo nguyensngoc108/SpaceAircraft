@@ -1,7 +1,6 @@
 package com.mygdx.spaceaircraft.screen;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.utils.ScreenUtils;
@@ -24,7 +23,7 @@ public class MenuScreen implements Screen {
     Texture ExitButtonB;
 
     SpaceAircraftMain game;
-    public MenuScreen (SpaceAircraftMain game){
+    public MenuScreen(SpaceAircraftMain game){
         this.game = game;
         PlayButtonA = new Texture("playButtonA.png");
         PlayButtonB = new Texture("badlogic.jpg");
