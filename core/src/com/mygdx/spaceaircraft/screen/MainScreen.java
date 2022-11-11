@@ -62,7 +62,7 @@ public class MainScreen implements Screen {
         rolls[1] = new Animation(AIRCRAFT_Animation_Speed,rollSpriteSheet[1]);
         rolls[2] = new Animation(AIRCRAFT_Animation_Speed,rollSpriteSheet[0]);//No tilt
         rolls[3] = new Animation(AIRCRAFT_Animation_Speed,rollSpriteSheet[3]);
-        rolls[4] = new Animation(AIRCRAFT_Animation_Speed,rollSpriteSheet[4]);//To the right
+        rolls[4] = new Animation(AIRCRAFT_Animation_Speed, rollSpriteSheet[4]);//To the right
 
 
     }
@@ -87,8 +87,8 @@ public class MainScreen implements Screen {
             if (roll == 2 || roll == 4)
                 offset = 16;
 
-            bullets.add(new Bullet(x+offset, y + offset));
-            bullets.add(new Bullet(x + AIRCRAFT_WIDTH - offset, y + offset));
+            bullets.add(new Bullet(x+ 45, y + offset));
+            bullets.add(new Bullet(x + AIRCRAFT_WIDTH - 50, y + offset));
         }
 
         //Update

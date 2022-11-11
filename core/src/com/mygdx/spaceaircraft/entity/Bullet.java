@@ -18,7 +18,7 @@ public class Bullet {
         this.y = y;
 
         if (texture == null){
-            texture =new Texture("bullet.png");
+            texture =new Texture("bullets.png");
         }
     }
     public void update (float deltaTime){
