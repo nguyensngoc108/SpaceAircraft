@@ -12,16 +12,19 @@ public class SpaceAircraftMain extends Game {
 	public static final int WIDTH = 480;
 	public static final int HEIGHT = 720;
 	public SpriteBatch batch;
-	Music BGM_SOUND;
+	private Music BGM_SOUND;
 
 
 	@Override
 	public void create () {
-		 BGM_SOUND = Gdx.audio.newMusic(Gdx.files.internal("bgm.mp3"));
+		Music BGM_SOUND = Gdx.audio.newMusic(Gdx.files.internal("bgm.mp3"));
 		batch = new SpriteBatch();
 		this.setScreen(new MenuScreen(this));
 
 
+		BGM_SOUND.setVolume(0.2f);
+		BGM_SOUND.setLooping(true);
+		BGM_SOUND.play();
 
 
 

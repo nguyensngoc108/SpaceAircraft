@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -25,6 +26,8 @@ public class MainScreen implements Screen {
 
     public static final float ROLL_SWITCH_TIME  = 0.15f;
     public static final float SHOOT_TIME = 0.3f;
+
+    private Sound bullet_sound;
 
 
 
@@ -66,6 +69,7 @@ public class MainScreen implements Screen {
 
 
     }
+
 
     @java.lang.Override
     public void show () {
