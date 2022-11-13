@@ -22,6 +22,8 @@ public class MenuScreen implements Screen {
     Texture ExitButtonA;
     Texture ExitButtonB;
 
+    Texture Background;
+
     Texture Logo;
     SpaceAircraftMain game;
     public MenuScreen(SpaceAircraftMain game){
@@ -33,6 +35,8 @@ public class MenuScreen implements Screen {
         ExitButtonB = new Texture("exitButtonB.png");
 
         Logo = new Texture("Logo.png");
+
+        Background = new Texture("Space.png");
 
     }
 
@@ -48,6 +52,8 @@ public class MenuScreen implements Screen {
 
         int x = (SpaceAircraftMain.WIDTH/2 - Play_Button_Width/2);
         int y = (SpaceAircraftMain.WIDTH/2 - Exit_Button_Width/2);
+
+        game.batch.draw(Background,0, 0);
 
         game.batch.draw(Logo,x - 100,LOGO, 300, 100);
         if(Gdx.input.getX() < x + Play_Button_Width && Gdx.input.getX() > x && SpaceAircraftMain.HEIGHT - Gdx.input.getY() < Play_Button_Y + Play_Button_Height && SpaceAircraftMain.HEIGHT - Gdx.input.getY() > Play_Button_Y ){

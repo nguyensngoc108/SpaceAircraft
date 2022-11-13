@@ -39,7 +39,6 @@ public class MainScreen implements Screen {
     Animation[] rolls;
 
 
-
     float x;
     float y;
     float stateTime;
