@@ -22,9 +22,9 @@ public class SpaceAircraftMain extends Game {
 		this.setScreen(new MenuScreen(this));
 
 
-		BGM_SOUND.setVolume(0.2f);
-		BGM_SOUND.setLooping(true);
-		BGM_SOUND.play();
+//		BGM_SOUND.setVolume(0.2f);
+//		BGM_SOUND.setLooping(true);
+//		BGM_SOUND.play();
 
 
 

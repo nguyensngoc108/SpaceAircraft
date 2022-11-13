@@ -1,6 +1,7 @@
 package com.mygdx.spaceaircraft.screen;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
@@ -11,13 +12,14 @@ import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.mygdx.spaceaircraft.SpaceAircraftMain;
+import com.mygdx.spaceaircraft.entity.Asteroid;
 import com.mygdx.spaceaircraft.entity.Bullet;
 
 
 //Create a gameplay in main screen for the game
 public class MainScreen implements Screen {
 
-    public static final float SPEED = 200;
+    public static final float SPEED = 350;
     public static final float AIRCRAFT_Animation_Speed = 0.5f;
     public static final int AIRCARFT_HEIGHT_PIXEL = 32;
     public static final int AIRCARFT_WIDTH_PIXEL = 17;
@@ -26,6 +28,9 @@ public class MainScreen implements Screen {
 
     public static final float ROLL_SWITCH_TIME  = 0.15f;
     public static final float SHOOT_TIME = 0.3f;
+
+    public static final float Min_Asteroid_Spawn_Time = 0.6f;
+    public static final float Max_Asteroid_Spawn_Time = 0.6f;
 
     private Sound bullet_sound;
 
@@ -38,11 +43,17 @@ public class MainScreen implements Screen {
     float x;
     float y;
     float stateTime;
+
+    float rolltimer;
+    float shootTimer;
+    float asteroidSpawnTime;
     SpaceAircraftMain game;
 
     ArrayList<Bullet> bullets;
-    float rolltimer;
-    float shootTimer;
+    ArrayList<Asteroid> asteroids;
+
+
+    Random random;
 
     int roll;
     public MainScreen(SpaceAircraftMain game){
@@ -51,7 +62,11 @@ public class MainScreen implements Screen {
         x = SpaceAircraftMain.WIDTH/2 - AIRCRAFT_WIDTH/2;
         shootTimer = 0;
 
+        random = new Random();
+        asteroidSpawnTime = random.nextFloat() * (Max_Asteroid_Spawn_Time - Min_Asteroid_Spawn_Time) + Min_Asteroid_Spawn_Time;
+
         bullets = new ArrayList<Bullet>();
+        asteroids = new ArrayList<Asteroid>();
 
         //Create an 2d array to store the model of the ship animation
         roll = 2;
@@ -92,6 +107,7 @@ public class MainScreen implements Screen {
                 offset = 16;
 
             bullets.add(new Bullet(x+ 45, y + offset));
+            bullets.add(new Bullet(x+ AIRCRAFT_WIDTH/2,y + offset));
             bullets.add(new Bullet(x + AIRCRAFT_WIDTH - 50, y + offset));
         }
 
@@ -103,6 +119,21 @@ public class MainScreen implements Screen {
                 bulletsToRemove.add(bullet);
         }
         bullets.removeAll(bulletsToRemove);
+
+//        //Objectives spawn
+        asteroidSpawnTime -= delta;
+        if (asteroidSpawnTime <= 0){
+            asteroidSpawnTime = random.nextFloat() * (Max_Asteroid_Spawn_Time - Min_Asteroid_Spawn_Time) + Min_Asteroid_Spawn_Time;
+            asteroids.add(new Asteroid(random.nextInt(Gdx.graphics.getWidth() - Asteroid.WIDTH)));
+        }
+
+        //Objectives update
+        ArrayList<Asteroid> removeAsteroid = new ArrayList<Asteroid>();
+        for(Asteroid asteroid: asteroids){
+            asteroid.update(delta);
+            if (asteroid.remove)
+                asteroids.removeAll(removeAsteroid);
+        }
 
         if (Gdx.input.isKeyPressed(Input.Keys.LEFT)){
             x -= SPEED * Gdx.graphics.getDeltaTime();
@@ -173,7 +204,7 @@ public class MainScreen implements Screen {
             y += SPEED * Gdx.graphics.getDeltaTime();
         }
         if (y+AIRCRAFT_HEIGHT > Gdx.graphics.getHeight()/2){
-            y = Gdx.graphics.getHeight()/2 - AIRCRAFT_HEIGHT;
+            y =  Gdx.graphics.getHeight()/2 - AIRCRAFT_HEIGHT;
         }
         if (Gdx.input.isKeyPressed(Input.Keys.DOWN)){
             y -= SPEED * Gdx.graphics.getDeltaTime();
@@ -183,6 +214,17 @@ public class MainScreen implements Screen {
             }
         }
 
+        //Loop
+        for(Bullet bullet: bullets){
+            for(Asteroid asteroid: asteroids){
+                if(bullet.getReact().collidesWith(asteroid.getReact())){
+                    bulletsToRemove.add(bullet);
+                    removeAsteroid.add(asteroid);
+                }
+            }
+        }
+        asteroids.removeAll(removeAsteroid);
+        bullets.removeAll(bulletsToRemove);
 
         stateTime += delta;
 
@@ -190,6 +232,10 @@ public class MainScreen implements Screen {
         game.batch.begin();
         for(Bullet bullet: bullets){
             bullet.render(game.batch);
+        }
+
+        for(Asteroid asteroid: asteroids){
+            asteroid.render(game.batch);
         }
 
         game.batch.draw((TextureRegion) rolls[roll].getKeyFrame(stateTime,true), x,y , (float) AIRCRAFT_WIDTH, (float) AIRCRAFT_HEIGHT);
