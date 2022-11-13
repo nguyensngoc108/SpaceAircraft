@@ -8,7 +8,7 @@ import com.mygdx.spaceaircraft.setting.React;
 
 public class Asteroid {
 
-    public static final int SPEED = 150;
+    public static final int SPEED = 100;
     public static final int WIDTH = 32;
     public static final int HEIGHT = 32;
 

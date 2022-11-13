@@ -29,10 +29,10 @@ public class MainScreen implements Screen {
     public static final float ROLL_SWITCH_TIME  = 0.15f;
     public static final float SHOOT_TIME = 0.3f;
 
-    public static final float Min_Asteroid_Spawn_Time = 0.6f;
-    public static final float Max_Asteroid_Spawn_Time = 0.6f;
+    public static final float Min_Asteroid_Spawn_Time = 0.4f;
+    public static final float Max_Asteroid_Spawn_Time = 0.7f;
 
-    private Sound bullet_sound;
+
 
 
 
@@ -65,8 +65,13 @@ public class MainScreen implements Screen {
         random = new Random();
         asteroidSpawnTime = random.nextFloat() * (Max_Asteroid_Spawn_Time - Min_Asteroid_Spawn_Time) + Min_Asteroid_Spawn_Time;
 
+        //Create an array for objectives
         bullets = new ArrayList<Bullet>();
         asteroids = new ArrayList<Asteroid>();
+
+
+
+
 
         //Create an 2d array to store the model of the ship animation
         roll = 2;
@@ -107,7 +112,7 @@ public class MainScreen implements Screen {
                 offset = 16;
 
             bullets.add(new Bullet(x+ 45, y + offset));
-            bullets.add(new Bullet(x+ AIRCRAFT_WIDTH/2,y + offset));
+
             bullets.add(new Bullet(x + AIRCRAFT_WIDTH - 50, y + offset));
         }
 

@@ -2,6 +2,7 @@ package com.mygdx.spaceaircraft.screen;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.mygdx.spaceaircraft.SpaceAircraftMain;
@@ -24,6 +25,8 @@ public class MenuScreen implements Screen {
 
     Texture Logo;
     SpaceAircraftMain game;
+
+    Sound button_Sound;
     public MenuScreen(SpaceAircraftMain game){
         //Menu icon
         this.game = game;
@@ -33,6 +36,9 @@ public class MenuScreen implements Screen {
         ExitButtonB = new Texture("exitButtonB.png");
 
         Logo = new Texture("Logo.png");
+
+        //Make sound for button
+        button_Sound = Gdx.audio.newSound(Gdx.files.internal("button_Sound.wav"));
 
     }
 
@@ -49,10 +55,13 @@ public class MenuScreen implements Screen {
         int x = (SpaceAircraftMain.WIDTH/2 - Play_Button_Width/2);
         int y = (SpaceAircraftMain.WIDTH/2 - Exit_Button_Width/2);
 
+
         game.batch.draw(Logo,x - 100,LOGO, 300, 100);
         if(Gdx.input.getX() < x + Play_Button_Width && Gdx.input.getX() > x && SpaceAircraftMain.HEIGHT - Gdx.input.getY() < Play_Button_Y + Play_Button_Height && SpaceAircraftMain.HEIGHT - Gdx.input.getY() > Play_Button_Y ){
             game.batch.draw(PlayButtonA,x -30 ,Play_Button_Y + 10, Play_Button_Width + 50,Play_Button_Height);
             if(Gdx.input.isTouched()){
+                long id =  button_Sound.play(1.0f);
+                button_Sound.setPitch(id,1);
                 game.setScreen(new MainScreen(game));
             }
         }else {
@@ -61,6 +70,8 @@ public class MenuScreen implements Screen {
         if(Gdx.input.getX() < y + Exit_Button_Width && Gdx.input.getX() > y && SpaceAircraftMain.HEIGHT - Gdx.input.getY() < Exit_Button_Y + Exit_Button_Height && SpaceAircraftMain.HEIGHT - Gdx.input.getY() > Exit_Button_Y ){
             game.batch.draw(ExitButtonA,y - 55,Exit_Button_Y + 28 ,Exit_Button_Width + 97,Exit_Button_Height - 16);
             if(Gdx.input.isTouched()){
+                long id =  button_Sound.play(1.0f);
+                button_Sound.setPitch(id,1);
                 Gdx.app.exit();
             }
         }else {
