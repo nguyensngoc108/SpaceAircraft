@@ -36,6 +36,7 @@ public class MenuScreen implements Screen {
 
         Logo = new Texture("Logo.png");
 
+
         Background = new Texture("Space.png");
 
     }
