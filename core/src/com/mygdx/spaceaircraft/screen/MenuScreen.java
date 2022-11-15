@@ -23,6 +23,7 @@ public class MenuScreen implements Screen {
     Texture ExitButtonA;
     Texture ExitButtonB;
 
+    Texture Background;
     Texture Logo;
     SpaceAircraftMain game;
 
@@ -30,13 +31,14 @@ public class MenuScreen implements Screen {
     public MenuScreen(SpaceAircraftMain game){
         //Menu icon
         this.game = game;
-        PlayButtonA = new Texture("playButtonA.png");
-        PlayButtonB = new Texture("playButtonB.png");
-        ExitButtonA = new Texture("exitButtonA.png");
-        ExitButtonB = new Texture("exitButtonB.png");
+        PlayButtonA = new Texture("playButtonA1.png");
+        PlayButtonB = new Texture("playButtonB1.png");
+        ExitButtonA = new Texture("exitButtonA1.png");
+        ExitButtonB = new Texture("exitButtonB1.png");
 
         Logo = new Texture("Logo.png");
 
+        Background = new Texture("Space.png");
         //Make sound for button
         button_Sound = Gdx.audio.newSound(Gdx.files.internal("button_Sound.wav"));
 
@@ -55,27 +57,24 @@ public class MenuScreen implements Screen {
         int x = (SpaceAircraftMain.WIDTH/2 - Play_Button_Width/2);
         int y = (SpaceAircraftMain.WIDTH/2 - Exit_Button_Width/2);
 
+        game.batch.draw(Background,0, 0);
 
         game.batch.draw(Logo,x - 100,LOGO, 300, 100);
         if(Gdx.input.getX() < x + Play_Button_Width && Gdx.input.getX() > x && SpaceAircraftMain.HEIGHT - Gdx.input.getY() < Play_Button_Y + Play_Button_Height && SpaceAircraftMain.HEIGHT - Gdx.input.getY() > Play_Button_Y ){
-            game.batch.draw(PlayButtonA,x -30 ,Play_Button_Y + 10, Play_Button_Width + 50,Play_Button_Height);
+            game.batch.draw(PlayButtonA,x - 20 ,Play_Button_Y - 10 , Play_Button_Width + 50,Play_Button_Height - 20);
             if(Gdx.input.isTouched()){
-                long id =  button_Sound.play(1.0f);
-                button_Sound.setPitch(id,1);
                 game.setScreen(new MainScreen(game));
             }
         }else {
-            game.batch.draw(PlayButtonB,x - 110 ,Play_Button_Y - 10, Play_Button_Width+ 210,Play_Button_Height + 30 );
+            game.batch.draw(PlayButtonB,x - 20 ,Play_Button_Y - 10, Play_Button_Width + 40,Play_Button_Height -30 );
         }
         if(Gdx.input.getX() < y + Exit_Button_Width && Gdx.input.getX() > y && SpaceAircraftMain.HEIGHT - Gdx.input.getY() < Exit_Button_Y + Exit_Button_Height && SpaceAircraftMain.HEIGHT - Gdx.input.getY() > Exit_Button_Y ){
-            game.batch.draw(ExitButtonA,y - 55,Exit_Button_Y + 28 ,Exit_Button_Width + 97,Exit_Button_Height - 16);
+            game.batch.draw(ExitButtonA,y - 5,Exit_Button_Y + 38 ,Exit_Button_Width + 30,Exit_Button_Height - 30);
             if(Gdx.input.isTouched()){
-                long id =  button_Sound.play(1.0f);
-                button_Sound.setPitch(id,1);
                 Gdx.app.exit();
             }
         }else {
-            game.batch.draw(ExitButtonB,y - 23 ,Exit_Button_Y + 40, Exit_Button_Width + 33,Exit_Button_Height - 43);
+            game.batch.draw(ExitButtonB,y - 13 ,Exit_Button_Y + 50, Exit_Button_Width + 30,Exit_Button_Height - 43);
         }
 
 
