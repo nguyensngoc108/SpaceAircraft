@@ -5,6 +5,7 @@ import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.mygdx.spaceaircraft.screen.GameOver;
 import com.mygdx.spaceaircraft.screen.MenuScreen;
 import com.mygdx.spaceaircraft.setting.Setting;
 public class SpaceAircraftMain extends Game {

@@ -7,13 +7,19 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.audio.Sound;
+import com.badlogic.gdx.files.FileHandle;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.mygdx.spaceaircraft.SpaceAircraftMain;
 import com.mygdx.spaceaircraft.entity.Asteroid;
 import com.mygdx.spaceaircraft.entity.Bullet;
+import com.mygdx.spaceaircraft.entity.Effect;
+import com.mygdx.spaceaircraft.setting.React;
 
 
 //Create a gameplay in main screen for the game
@@ -37,12 +43,15 @@ public class MainScreen implements Screen {
 
 
     Animation[] rolls;
+    BitmapFont scoreFont;
 
 
 
     float x;
     float y;
     float stateTime;
+
+    int score;
 
     float rolltimer;
     float shootTimer;
@@ -51,9 +60,14 @@ public class MainScreen implements Screen {
 
     ArrayList<Bullet> bullets;
     ArrayList<Asteroid> asteroids;
+    ArrayList<Effect> effects;
+
+    React playerReact;
+    Texture blank;
 
 
     Random random;
+    float health = 1;
 
     int roll;
     public MainScreen(SpaceAircraftMain game){
@@ -68,8 +82,13 @@ public class MainScreen implements Screen {
         //Create an array for objectives
         bullets = new ArrayList<Bullet>();
         asteroids = new ArrayList<Asteroid>();
+        effects = new ArrayList<Effect>();
+        blank = new Texture("blank.png");
+        playerReact = new React(0,0,AIRCRAFT_WIDTH,AIRCRAFT_HEIGHT);
 
-
+        //Import fonts score
+        scoreFont = new BitmapFont((Gdx.files.internal("fonts/scores.fnt")));
+        score = 0;
 
 
 
@@ -112,7 +131,7 @@ public class MainScreen implements Screen {
                 offset = 16;
 
             bullets.add(new Bullet(x+ 45, y + offset));
-
+            bullets.add(new Bullet(x+AIRCRAFT_WIDTH/2,y + offset));
             bullets.add(new Bullet(x + AIRCRAFT_WIDTH - 50, y + offset));
         }
 
@@ -124,6 +143,15 @@ public class MainScreen implements Screen {
                 bulletsToRemove.add(bullet);
         }
         bullets.removeAll(bulletsToRemove);
+
+        //Effect update
+        ArrayList<Effect> removeEffect = new ArrayList<>();
+        for(Effect effect: effects){
+            effect.update(delta);
+            if(effect.remove)
+                removeEffect.add(effect);
+        }
+        effects.removeAll(removeEffect);
 
 //        //Objectives spawn
         asteroidSpawnTime -= delta;
@@ -219,22 +247,42 @@ public class MainScreen implements Screen {
             }
         }
 
+        //Update react objectives
+        playerReact.move(x,y);
         //Loop
         for(Bullet bullet: bullets){
             for(Asteroid asteroid: asteroids){
                 if(bullet.getReact().collidesWith(asteroid.getReact())){
                     bulletsToRemove.add(bullet);
                     removeAsteroid.add(asteroid);
+                    effects.add(new Effect(asteroid.getX(),asteroid.getY()));
+                    score += 100;
                 }
             }
         }
         asteroids.removeAll(removeAsteroid);
         bullets.removeAll(bulletsToRemove);
 
+        for (Asteroid asteroid: asteroids){
+            if(asteroid.getReact().collidesWith(playerReact)){
+                removeAsteroid.add(asteroid);
+                health -= 0.001;
+
+                //Game Over
+                if (health <= 0){
+                    this.dispose();
+                    game.setScreen(new GameOver(game,score));
+                    return;
+                }
+            }
+        }
         stateTime += delta;
 
         ScreenUtils.clear(0.15f, 0.15f , 0.4f, 1);
         game.batch.begin();
+
+        GlyphLayout scoreL = new GlyphLayout(scoreFont,"" + score);
+        scoreFont.draw(game.batch, scoreL, Gdx.graphics.getWidth()/2 -scoreL.width /2, Gdx.graphics.getHeight() - scoreL.height - 10 );
         for(Bullet bullet: bullets){
             bullet.render(game.batch);
         }
@@ -243,6 +291,18 @@ public class MainScreen implements Screen {
             asteroid.render(game.batch);
         }
 
+        for(Effect effect: effects){
+            effect.render(game.batch);
+        }
+
+        if(health > 0.6f)
+            game.batch.setColor(Color.GREEN);
+        else if (health > 0.2f)
+            game.batch.setColor(Color.ORANGE);
+        else
+            game.batch.setColor(Color.RED);
+        game.batch.draw(blank, 0 ,0 , Gdx.graphics.getWidth() * health,5);
+        game.batch.setColor(Color.WHITE);
         game.batch.draw((TextureRegion) rolls[roll].getKeyFrame(stateTime,true), x,y , (float) AIRCRAFT_WIDTH, (float) AIRCRAFT_HEIGHT);
         game.batch.end();
 
