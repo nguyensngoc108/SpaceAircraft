@@ -5,6 +5,7 @@ import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.mygdx.spaceaircraft.screen.GameOver;
 import com.mygdx.spaceaircraft.screen.MenuScreen;
 import com.mygdx.spaceaircraft.setting.Setting;
 public class SpaceAircraftMain extends Game {
@@ -19,7 +20,7 @@ public class SpaceAircraftMain extends Game {
 	public void create () {
 		Music BGM_SOUND = Gdx.audio.newMusic(Gdx.files.internal("bgm.mp3"));
 		batch = new SpriteBatch();
-		this.setScreen(new MenuScreen(this));
+		this.setScreen(new GameOver(this,0));
 
 
 //		BGM_SOUND.setVolume(0.2f);

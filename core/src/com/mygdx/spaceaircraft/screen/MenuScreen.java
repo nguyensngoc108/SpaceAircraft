@@ -2,6 +2,7 @@ package com.mygdx.spaceaircraft.screen;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.mygdx.spaceaircraft.SpaceAircraftMain;
@@ -23,9 +24,14 @@ public class MenuScreen implements Screen {
     Texture ExitButtonB;
 
     Texture Background;
+<<<<<<< HEAD
 
+=======
+>>>>>>> c3c89a71090d2f821c1d6a61450364fe21975310
     Texture Logo;
     SpaceAircraftMain game;
+
+    Sound button_Sound;
     public MenuScreen(SpaceAircraftMain game){
         //Menu icon
         this.game = game;
@@ -36,8 +42,14 @@ public class MenuScreen implements Screen {
 
         Logo = new Texture("Logo.png");
 
+<<<<<<< HEAD
 
         Background = new Texture("Space.png");
+=======
+        Background = new Texture("Space.png");
+        //Make sound for button
+        button_Sound = Gdx.audio.newSound(Gdx.files.internal("button_Sound.wav"));
+>>>>>>> c3c89a71090d2f821c1d6a61450364fe21975310
 
     }
 

@@ -1,13 +1,15 @@
 package com.mygdx.spaceaircraft.entity;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Music;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.mygdx.spaceaircraft.setting.React;
 
 public class Bullet {
     React react;
-    public static final int SPEED = 500;
+    public static final int SPEED = Math.abs(500);
     public static final int Width = 3;
     public static final int Height = 12;
 
@@ -16,7 +18,7 @@ public class Bullet {
     float x,y;
 
     public boolean remove = false;
-
+    Sound shootSound = Gdx.audio.newSound(Gdx.files.internal("shoot_sound.wav"));
 
 
     public Bullet(float x,float y){
@@ -24,7 +26,10 @@ public class Bullet {
         this.y = y;
         this.react = new React(x,y, Width, Height);
 
+        long id = shootSound.play(1.0f);
         if (texture == null){
+
+            shootSound.setPitch(id,2);
             texture =new Texture("bullets.png");
         }
     }
