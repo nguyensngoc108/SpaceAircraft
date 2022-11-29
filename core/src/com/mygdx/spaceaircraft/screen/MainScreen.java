@@ -131,7 +131,6 @@ public class MainScreen implements Screen {
                 offset = 16;
 
             bullets.add(new Bullet(x+ 45, y + offset));
-            bullets.add(new Bullet(x+AIRCRAFT_WIDTH/2,y + offset));
             bullets.add(new Bullet(x + AIRCRAFT_WIDTH - 50, y + offset));
         }
 
@@ -266,7 +265,7 @@ public class MainScreen implements Screen {
         for (Asteroid asteroid: asteroids){
             if(asteroid.getReact().collidesWith(playerReact)){
                 removeAsteroid.add(asteroid);
-                health -= 0.001;
+                health -= 0.01;
 
                 //Game Over
                 if (health <= 0){

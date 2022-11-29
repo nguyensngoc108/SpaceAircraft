@@ -62,7 +62,7 @@ public class GameOver implements Screen {
         float playAgainY = Gdx.graphics.getHeight() /2 - tryAgainLayout.height/2;
 
         float mainMenuX =Gdx.graphics.getWidth() / 2 - mainMenuLayout.width/2;
-        float mainMenuY = Gdx.graphics.getHeight() /2 - mainMenuLayout.height/2 - tryAgainLayout.height-15;
+        float mainMenuY = Gdx.graphics.getHeight() /2 - mainMenuLayout.height/2 - tryAgainLayout.height - 30;
 
         //Draw button
         scoreFont.draw(game.batch,tryAgainLayout,playAgainX,playAgainY);

@@ -9,7 +9,7 @@ import com.mygdx.spaceaircraft.setting.React;
 
 public class Bullet {
     React react;
-    public static final int SPEED = 500;
+    public static final int SPEED = Math.abs(500);
     public static final int Width = 3;
     public static final int Height = 12;
 
