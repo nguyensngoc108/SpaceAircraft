@@ -105,12 +105,12 @@ public class MainScreen implements Screen {
             if (roll == 2 || roll == 4)
                 offset = 16;
 
-            bullets.add(new Bullet(x+ 45, y + offset));
+            //bullets.add(new Bullet(x+ 45, y + offset));
             bullets.add(new Bullet(x+ AIRCRAFT_WIDTH/2,y + offset));
-            bullets.add(new Bullet(x + AIRCRAFT_WIDTH - 50, y + offset));
+           // bullets.add(new Bullet(x + AIRCRAFT_WIDTH - 50, y + offset));
         }
 
-        //Update
+        //Updateqq
         ArrayList<Bullet> bulletsToRemove = new ArrayList<Bullet>();
         for(Bullet bullet: bullets){
             bullet.update(delta);

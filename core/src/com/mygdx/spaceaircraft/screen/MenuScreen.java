@@ -58,20 +58,20 @@ public class MenuScreen implements Screen {
 
         game.batch.draw(Logo,x - 100,LOGO, 300, 100);
         if(Gdx.input.getX() < x + Play_Button_Width && Gdx.input.getX() > x && SpaceAircraftMain.HEIGHT - Gdx.input.getY() < Play_Button_Y + Play_Button_Height && SpaceAircraftMain.HEIGHT - Gdx.input.getY() > Play_Button_Y ){
-            game.batch.draw(PlayButtonA,x - 30 ,Play_Button_Y -20 , Play_Button_Width + 50,Play_Button_Height + 50);
+            game.batch.draw(PlayButtonA,x - 20 ,Play_Button_Y - 10 , Play_Button_Width + 50,Play_Button_Height - 20);
             if(Gdx.input.isTouched()){
                 game.setScreen(new MainScreen(game));
             }
         }else {
-            game.batch.draw(PlayButtonB,x - 30 ,Play_Button_Y - 10, Play_Button_Width+ 50,Play_Button_Height + 30 );
+            game.batch.draw(PlayButtonB,x - 20 ,Play_Button_Y - 10, Play_Button_Width + 40,Play_Button_Height -30 );
         }
         if(Gdx.input.getX() < y + Exit_Button_Width && Gdx.input.getX() > y && SpaceAircraftMain.HEIGHT - Gdx.input.getY() < Exit_Button_Y + Exit_Button_Height && SpaceAircraftMain.HEIGHT - Gdx.input.getY() > Exit_Button_Y ){
-            game.batch.draw(ExitButtonA,y - 15,Exit_Button_Y + 28 ,Exit_Button_Width + 30,Exit_Button_Height - 30);
+            game.batch.draw(ExitButtonA,y - 5,Exit_Button_Y + 38 ,Exit_Button_Width + 30,Exit_Button_Height - 30);
             if(Gdx.input.isTouched()){
                 Gdx.app.exit();
             }
         }else {
-            game.batch.draw(ExitButtonB,y - 23 ,Exit_Button_Y + 40, Exit_Button_Width + 30,Exit_Button_Height - 43);
+            game.batch.draw(ExitButtonB,y - 13 ,Exit_Button_Y + 50, Exit_Button_Width + 30,Exit_Button_Height - 43);
         }
 
 
