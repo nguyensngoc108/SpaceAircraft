@@ -31,7 +31,7 @@ public class Boss {
 
     public Boss(){
         this.x = 200;
-        this.y = 570;
+        this.y = 580;
         this.react = new React(x,y, WIDTH, HEIGHT);
 
         if (texture == null){

@@ -310,9 +310,9 @@ public class BossScreen implements Screen {
                 effects.add(new Effect(boss.getX(),boss.getY()));
 
                 //Game Over
-                if (health <= 0){
+                if (boss.getBossHealth() <= 0){
                     this.dispose();
-                    game.setScreen(new GameOver(game,0));
+                    game.setScreen(new GameOver(game,100));
                     return;
                 }
             }
