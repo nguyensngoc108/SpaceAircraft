@@ -40,8 +40,6 @@ public class MainScreen implements Screen {
 
 
 
-
-
     Animation[] rolls;
     BitmapFont scoreFont;
 
@@ -64,6 +62,8 @@ public class MainScreen implements Screen {
 
     React playerReact;
     Texture blank;
+
+    Texture Background;
 
 
     Random random;
@@ -106,7 +106,7 @@ public class MainScreen implements Screen {
         rolls[3] = new Animation(AIRCRAFT_Animation_Speed,rollSpriteSheet[3]);
         rolls[4] = new Animation(AIRCRAFT_Animation_Speed, rollSpriteSheet[4]);//To the right
 
-
+        Background = new Texture("imgur_com.jpg");
     }
 
 
@@ -118,6 +118,7 @@ public class MainScreen implements Screen {
 
     @java.lang.Override
     public void render (float delta) {
+
         //Bullet animation
         shootTimer += delta;
         if(Gdx.input.isKeyPressed(Input.Keys.SPACE) && shootTimer >= SHOOT_TIME){
@@ -279,6 +280,8 @@ public class MainScreen implements Screen {
 
         ScreenUtils.clear(0.15f, 0.15f , 0.4f, 1);
         game.batch.begin();
+        //Background
+        game.batch.draw(Background,0, 0);
 
         GlyphLayout scoreL = new GlyphLayout(scoreFont,"" + score);
         scoreFont.draw(game.batch, scoreL, Gdx.graphics.getWidth()/2 -scoreL.width /2, Gdx.graphics.getHeight() - scoreL.height - 10 );
