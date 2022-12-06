@@ -5,6 +5,7 @@ import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.mygdx.spaceaircraft.screen.BossScreen;
 import com.mygdx.spaceaircraft.screen.GameOver;
 import com.mygdx.spaceaircraft.screen.MenuScreen;
 import com.mygdx.spaceaircraft.setting.BackGround;
@@ -22,8 +23,12 @@ public class SpaceAircraftMain extends Game {
 	public void create () {
 		Music BGM_SOUND = Gdx.audio.newMusic(Gdx.files.internal("bgm.mp3"));
 		batch = new SpriteBatch();
+<<<<<<< HEAD
 		this.scrollingBackground = new BackGround();
 		this.setScreen(new GameOver(this,0));
+=======
+		this.setScreen(new BossScreen(this));
+>>>>>>> 37ce9b7386c992af1a8338c9fef0f9b4dea79d7a
 
 
 //		BGM_SOUND.setVolume(0.2f);
