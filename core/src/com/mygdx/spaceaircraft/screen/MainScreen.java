@@ -10,15 +10,13 @@ import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.Animation;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.graphics.g2d.GlyphLayout;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.graphics.g2d.*;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.mygdx.spaceaircraft.SpaceAircraftMain;
 import com.mygdx.spaceaircraft.entity.Asteroid;
 import com.mygdx.spaceaircraft.entity.Bullet;
 import com.mygdx.spaceaircraft.entity.Effect;
+import com.mygdx.spaceaircraft.setting.BackGround;
 import com.mygdx.spaceaircraft.setting.React;
 
 
@@ -37,6 +35,9 @@ public class MainScreen implements Screen {
 
     public static final float Min_Asteroid_Spawn_Time = 0.4f;
     public static final float Max_Asteroid_Spawn_Time = 0.7f;
+
+
+
 
 
 
@@ -72,6 +73,7 @@ public class MainScreen implements Screen {
     int roll;
     public MainScreen(SpaceAircraftMain game){
         this.game = game;
+
         y = 15;
         x = SpaceAircraftMain.WIDTH/2 - AIRCRAFT_WIDTH/2;
         shootTimer = 0;
@@ -263,22 +265,24 @@ public class MainScreen implements Screen {
         bullets.removeAll(bulletsToRemove);
 
         for (Asteroid asteroid: asteroids){
-            if(asteroid.getReact().collidesWith(playerReact)){
+            if(asteroid.getReact().collidesWith(playerReact)) {
                 removeAsteroid.add(asteroid);
-                health -= 0.01;
+                health -= 0.1;
 
                 //Game Over
-                if (health <= 0){
+                if (health <= 0) {
                     this.dispose();
-                    game.setScreen(new GameOver(game,score));
+                    game.setScreen(new GameOver(game, score));
                     return;
                 }
             }
         }
+        asteroids.removeAll(removeAsteroid);
         stateTime += delta;
 
         ScreenUtils.clear(0.15f, 0.15f , 0.4f, 1);
         game.batch.begin();
+        game.scrollingBackground.update(delta,game.batch);
 
         GlyphLayout scoreL = new GlyphLayout(scoreFont,"" + score);
         scoreFont.draw(game.batch, scoreL, Gdx.graphics.getWidth()/2 -scoreL.width /2, Gdx.graphics.getHeight() - scoreL.height - 10 );
@@ -308,7 +312,7 @@ public class MainScreen implements Screen {
     }
 
     @java.lang.Override
-    public void resize (int width, int height) {
+    public void resize(int w,int h) {
 
     }
 

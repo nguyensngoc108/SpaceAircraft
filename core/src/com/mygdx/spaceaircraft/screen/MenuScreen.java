@@ -38,7 +38,7 @@ public class MenuScreen implements Screen {
 
         Logo = new Texture("Logo.png");
 
-        Background = new Texture("Space.png");
+//        Background = new Texture("Space.png");
         //Make sound for button
         button_Sound = Gdx.audio.newSound(Gdx.files.internal("button_Sound.wav"));
 
@@ -57,7 +57,7 @@ public class MenuScreen implements Screen {
         int x = (SpaceAircraftMain.WIDTH/2 - Play_Button_Width/2);
         int y = (SpaceAircraftMain.WIDTH/2 - Exit_Button_Width/2);
 
-        game.batch.draw(Background,0, 0);
+//        game.batch.draw(Background,0, 0);
 
         game.batch.draw(Logo,x - 100,LOGO, 300, 100);
         if(Gdx.input.getX() < x + Play_Button_Width && Gdx.input.getX() > x && SpaceAircraftMain.HEIGHT - Gdx.input.getY() < Play_Button_Y + Play_Button_Height && SpaceAircraftMain.HEIGHT - Gdx.input.getY() > Play_Button_Y ){
