@@ -47,7 +47,7 @@ public class GameOver implements Screen {
         Gdx.gl.glClearColor(0,0,0,1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         game.batch.begin();
-
+        game.scrollingBackground.update(delta,game.batch);
 
         game.batch.draw(gameOverBanner, Gdx.graphics.getWidth() / 2- Banner_width/2,Gdx.graphics.getHeight()-Banner_height-15,Banner_width,Banner_height);
         GlyphLayout scoreLayout = new GlyphLayout(scoreFont, "Score: \n" + score, Color.WHITE,0, Align.left,false);

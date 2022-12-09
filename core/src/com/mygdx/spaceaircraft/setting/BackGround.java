@@ -1,12 +1,14 @@
 package com.mygdx.spaceaircraft.setting;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
+
+import com.mygdx.spaceaircraft.SpaceAircraftMain;
+
 public class BackGround {
 
-    public static final int Default_Speed = 50;
+    public static final int Default_Speed = 80;
     public static final int Accelarate = 50;
     public static final int Goal_Accelarate = 200;
     Texture img;
@@ -40,7 +42,7 @@ public class BackGround {
                 speed = goalSpeed;
         }
 
-        if(speedFix)
+        if(!speedFix)
             speed += Accelarate * deltaTime;
 
         y1 -= speed * deltaTime;
@@ -53,8 +55,8 @@ public class BackGround {
         if(y2 +img.getHeight() *imgScale <= 0) {
             y2 = y1 + img.getHeight() * imgScale;
         }
-        batch.draw(img,0,y1, Gdx.graphics.getWidth(),img.getHeight()*imgScale);
-        batch.draw(img,0,y2, Gdx.graphics.getWidth(),img.getHeight()*imgScale);
+        batch.draw(img,0,y1, SpaceAircraftMain.WIDTH,img.getHeight()*imgScale);
+        batch.draw(img,0,y2, SpaceAircraftMain.WIDTH,img.getHeight()*imgScale);
 
     }
 
