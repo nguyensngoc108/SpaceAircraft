@@ -7,7 +7,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.mygdx.spaceaircraft.setting.React;
 
-public class Bullet {
+public class Bullet implements  Entity{
     React react;
     public static final int SPEED = Math.abs(500);
     public static final int Width = 3;
@@ -33,6 +33,8 @@ public class Bullet {
             texture =new Texture("bullets.png");
         }
     }
+
+    @Override
     public void update (float deltaTime){
         y += SPEED * deltaTime;
         if (y > Gdx.graphics.getHeight())
@@ -44,13 +46,24 @@ public class Bullet {
     }
 
 
-
+    @Override
     public void render(SpriteBatch batch){
         batch.draw(texture,x,y);
     }
 
+    @Override
     public React getReact(){
         return react;
+    }
+
+    @Override
+    public float getX() {
+        return 0;
+    }
+
+    @Override
+    public float getY() {
+        return 0;
     }
 
 }

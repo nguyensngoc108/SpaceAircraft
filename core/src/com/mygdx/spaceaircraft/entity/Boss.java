@@ -9,7 +9,7 @@ import java.util.Random;
 
 enum Direction {L,R}
 
-public class Boss {
+public class Boss implements  Entity{
 
     public static final int SPEED = 100;
     public static final int WIDTH = 105;
@@ -18,31 +18,29 @@ public class Boss {
     private static final Direction[] DIRECTIONS = Direction.values();
     private Direction dir = Direction.R;
 
-    public static Texture[] texture;
+    public static Texture[] texture = new Texture[2];
 
 
 
     float x,y;
 
-    float bossHealth = 1;
+    double bossHealth = 1;
     React react;
 
     public boolean remove = false;
 
-    public Boss(){
+    public Boss(Texture texture0,Texture texture1){
         this.x = 200;
         this.y = 580;
         this.react = new React(x,y, WIDTH, HEIGHT);
 
-        if (texture == null){
-            texture =new Texture[2];
-            texture[0] = new Texture("boss1.png");
-            texture[1] = new Texture("boss2.png");
-        }
+        texture[0] = texture0;
+        texture[1] = texture1;
+
     }
 
 
-
+    @Override
     public void update (float deltaTime){
         checkHitWall();
         switch (dir){
@@ -58,7 +56,7 @@ public class Boss {
     }
 
     public void checkHitWall(){
-        if (x <= -5 || x >= 370){
+        if (x <= -0 || x >= Gdx.graphics.getWidth() - WIDTH){
             switch (dir){
                 case L: dir = Direction.R; break;
                 case R: dir = Direction.L; break;
@@ -67,36 +65,39 @@ public class Boss {
     }
 
 
-
+    @Override
     public void render(SpriteBatch batch){
         if(x < 50){
-            batch.draw(texture[1], x, y);}
+            batch.draw(texture[1], x, y,WIDTH,HEIGHT);}
         else if(x >= 50 && x <= 100) {
-            batch.draw(texture[0], x, y);
+            batch.draw(texture[0], x, y, WIDTH, HEIGHT);
         } else if(x > 100 && x <= 200){
-            batch.draw(texture[1],x,y);
+            batch.draw(texture[1],x,y,WIDTH,HEIGHT);
         }else if(x > 200 && x <= 300){
-            batch.draw(texture[0], x, y);
-        }else{batch.draw(texture[1], x, y);}
+            batch.draw(texture[0], x, y,WIDTH,HEIGHT);
+        }else{batch.draw(texture[1], x, y,WIDTH,HEIGHT);}
     }
+
+    @Override
     public React getReact(){
         return react;
     }
 
+    @Override
     public float getX(){
         return x;
     }
-
+    @Override
     public float getY(){
         return y;
     }
 
-    public  float getBossHealth(){
+    public  double getBossHealth(){
         return bossHealth;
     }
 
-    public  void decreaseBossHealth(){
-        bossHealth -= 0.02;
+    public  void decreaseBossHealth(double health){
+        bossHealth -= health;
     }
 
 }

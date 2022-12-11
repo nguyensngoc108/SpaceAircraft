@@ -36,13 +36,12 @@ public class Level2 implements Screen {
     public static final float Min_Asteroid_Spawn_Time = 0.4f;
     public static final float Max_Asteroid_Spawn_Time = 0.7f;
 
-    public static final float Max_Asteroid2_Spawn_Time = 0.7f;
+    public static final float Max_Asteroid2_Spawn_Time = 0.8f;
 
-    public static final float Min_Asteroid2_Spawn_Time = 0.4f;
+    public static final float Min_Asteroid2_Spawn_Time = 0.2f;
 
-    public static final float Max_SmallAsteroid_Spawn_Time = 0.7f;
+    public  static  final int level =2;
 
-    public static final float Min_SmallAsteroid_Spawn_Time = 0.4f;
 
 
 
@@ -59,12 +58,12 @@ public class Level2 implements Screen {
     float shootTimer;
     float asteroidSpawnTime;
     float asteroid2SpawnTime;
-    float smallAsteroidSpawnTime;
+
 
     SpaceAircraftMain game;
 
     ArrayList<Bullet> bullets;
-    ArrayList<Asteroid> asteroids;
+    ArrayList<BigAsteroid> asteroids;
     ArrayList<Effect> effects;
     ArrayList<BigAsteroid> asteroids2;
     ArrayList<BigAsteroid> smallAsteroids;
@@ -85,17 +84,17 @@ public class Level2 implements Screen {
         random = new Random();
         asteroidSpawnTime = random.nextFloat() * (Max_Asteroid_Spawn_Time - Min_Asteroid_Spawn_Time) + Min_Asteroid_Spawn_Time;
         asteroid2SpawnTime = random.nextFloat() *(Max_Asteroid2_Spawn_Time - Min_Asteroid2_Spawn_Time) + Max_Asteroid2_Spawn_Time;
-        smallAsteroidSpawnTime = random.nextFloat() *(Max_SmallAsteroid_Spawn_Time - Min_SmallAsteroid_Spawn_Time) + Max_Asteroid2_Spawn_Time;
+
 
         //Create an array for objectives
         bullets = new ArrayList<Bullet>();
-        asteroids = new ArrayList<Asteroid>();
+        asteroids = new ArrayList<BigAsteroid>();
         effects = new ArrayList<Effect>();
         blank = new Texture("blank.png");
         playerReact = new React(0,0,AIRCRAFT_WIDTH,AIRCRAFT_HEIGHT);
         asteroids2 = new ArrayList<BigAsteroid>();
         smallAsteroids = new ArrayList<BigAsteroid>();
-        boss = new Boss();
+        boss = new Boss(new Texture("bossNgoc1.png"), new Texture("bossNgoc2.png"));
 
 
 
@@ -126,6 +125,10 @@ public class Level2 implements Screen {
 
     @java.lang.Override
     public void render (float delta) {
+
+        //update boss
+        boss.update(delta);
+
         //Bullet animation
         shootTimer += delta;
         if(Gdx.input.isKeyPressed(Input.Keys.SPACE) && shootTimer >= SHOOT_TIME){
@@ -164,12 +167,13 @@ public class Level2 implements Screen {
         asteroidSpawnTime -= delta;
         if (asteroidSpawnTime <= 0){
             asteroidSpawnTime = random.nextFloat() * (Max_Asteroid_Spawn_Time - Min_Asteroid_Spawn_Time) + Min_Asteroid_Spawn_Time;
-            asteroids.add(new Asteroid(random.nextInt(Gdx.graphics.getWidth() - Asteroid.WIDTH)));
+            asteroids.add(new BigAsteroid(random.nextInt(Gdx.graphics.getWidth() - 16), Gdx.graphics.getHeight(), new Texture("asteroid1.png"),16,16));
+
         }
 
         //Objectives update
-        ArrayList<Asteroid> removeAsteroid = new ArrayList<Asteroid>();
-        for(Asteroid asteroid: asteroids){
+        ArrayList<BigAsteroid> removeAsteroid = new ArrayList<BigAsteroid>();
+        for(BigAsteroid asteroid: asteroids){
             asteroid.update(delta);
             if (asteroid.remove) {
                 asteroids.removeAll(removeAsteroid);
@@ -191,6 +195,13 @@ public class Level2 implements Screen {
                 asteroids2.removeAll(removeAsteroid2);
         }
 
+        //Small asteroid update
+        ArrayList<BigAsteroid> removeSmallAsteroid = new ArrayList<BigAsteroid>();
+        for (BigAsteroid smallAsteroid : smallAsteroids) {
+            smallAsteroid.update(delta);
+            if (smallAsteroid.remove)
+                smallAsteroids.removeAll(removeSmallAsteroid);
+        }
 
         if (Gdx.input.isKeyPressed(Input.Keys.LEFT)){
             x -= SPEED * Gdx.graphics.getDeltaTime();
@@ -273,9 +284,11 @@ public class Level2 implements Screen {
 
         //Update react objectives
         playerReact.move(x,y);
+
         //Loop
+        //bullet hit asteroid
         for(Bullet bullet: bullets){
-            for(Asteroid asteroid: asteroids){
+            for(BigAsteroid asteroid: asteroids){
                 if(bullet.getReact().collidesWith(asteroid.getReact())){
                     bulletsToRemove.add(bullet);
                     removeAsteroid.add(asteroid);
@@ -295,7 +308,7 @@ public class Level2 implements Screen {
                     effects.add(new Effect(asteroid2.getX(),asteroid2.getY()));
 
                     //Spawn small asteroid
-                    smallAsteroids.add(new BigAsteroid(asteroid2.getX() + 10, asteroid2.getY(),new Texture("SmallAsteroid.png"),16,16));
+                    smallAsteroids.add(new BigAsteroid(asteroid2.getX() + 10, asteroid2.getY() - 10,new Texture("SmallAsteroid.png"),16,16));
                     smallAsteroids.add(new BigAsteroid(asteroid2.getX() - 10, asteroid2.getY(),new Texture("SmallAsteroid.png"),16,16));
                 }
             }
@@ -303,15 +316,9 @@ public class Level2 implements Screen {
         asteroids2.removeAll(removeAsteroid2);
         bullets.removeAll(bulletsToRemove);
 
-        //Small asteroid update
-        ArrayList<BigAsteroid> removeSmallAsteroid = new ArrayList<BigAsteroid>();
-        for (BigAsteroid smallAsteroid : smallAsteroids) {
-            smallAsteroid.update(delta);
-            if (smallAsteroid.remove)
-                smallAsteroids.removeAll(removeSmallAsteroid);
-        }
 
-        //Collide with small asteroid
+
+        //bullethit  smallAsteroid
         for(Bullet bullet: bullets) {
             for (BigAsteroid smallAsteroid : smallAsteroids) {
                 if (bullet.getReact().collidesWith(smallAsteroid.getReact())) {
@@ -324,24 +331,24 @@ public class Level2 implements Screen {
         smallAsteroids.removeAll(removeSmallAsteroid);
         bullets.removeAll(bulletsToRemove);
 
-        //Aircraft collides with asteroid2
+        //sepAsteroid hit player
         for (BigAsteroid asteroid2: asteroids2){
             if(asteroid2.getReact().collidesWith(playerReact)){
                 removeAsteroid2.add(asteroid2);
                 effects.add(new Effect(asteroid2.getX(),asteroid2.getY()));
                 health -= 0.2;
 
-                //Game Over
+                //Game Lost
                 if (health <= 0){
                     this.dispose();
-                    game.setScreen(new GameOver(game,0));
+                    game.setScreen(new GameLost(game,level));
                     return;
                 }
             }
         }
         asteroids2.removeAll(removeAsteroid2);
 
-        //Aircraft collides with small asteroid
+        //player hit smallAsteroid
         for (BigAsteroid smallAsteroid: smallAsteroids){
             if(smallAsteroid.getReact().collidesWith(playerReact)){
                 removeSmallAsteroid.add(smallAsteroid);
@@ -351,28 +358,48 @@ public class Level2 implements Screen {
                 //Game Over
                 if (health <= 0){
                     this.dispose();
-                    game.setScreen(new GameOver(game,0));
+                    game.setScreen(new GameLost(game,level));
                     return;
                 }
             }
         }
         smallAsteroids.removeAll(removeSmallAsteroid);
 
-        //Aircraft collides with normal asteroid
-        for (Asteroid asteroid: asteroids){
+        //player hit asteroid
+        for (BigAsteroid asteroid: asteroids){
             if(asteroid.getReact().collidesWith(playerReact)){
                 removeAsteroid.add(asteroid);
+                effects.add(new Effect(asteroid.getX(),asteroid.getY()));
+                health -= 0.1;
 
-                health -= 0.01;
-
-                //Game Over
+                //Game Lost
                 if (health <= 0){
                     this.dispose();
-                    game.setScreen(new GameOver(game, 0));
+                    game.setScreen(new GameLost(game, level));
                     return;
                 }
             }
         }
+        asteroids.removeAll(removeAsteroid);
+
+        // bullets hit boss
+        for(Bullet bullet : bullets){
+            if(bullet.getReact().collidesWith(boss.getReact())){
+                bulletsToRemove.add(bullet);
+                boss.decreaseBossHealth(0.1);
+
+                //Game complete
+                if(boss.getBossHealth() <= 0){
+                    this.dispose();
+                    game.setScreen(new GameOver(game,100));
+                    return;
+                }
+            }
+        }
+        bullets.removeAll(bulletsToRemove);
+
+
+
         stateTime += delta;
 
         ScreenUtils.clear(0.15f, 0.15f , 0.4f, 1);
@@ -382,7 +409,7 @@ public class Level2 implements Screen {
             bullet.render(game.batch);
         }
 
-        for(Asteroid asteroid: asteroids){
+        for(BigAsteroid asteroid: asteroids){
             asteroid.render(game.batch);
         }
 
@@ -394,7 +421,7 @@ public class Level2 implements Screen {
             smallAsteroid.render(game.batch);
         }
 
-
+        boss.render(game.batch);
 
         for(Effect effect: effects){
             effect.render(game.batch);
@@ -407,6 +434,7 @@ public class Level2 implements Screen {
         else
             game.batch.setColor(Color.RED);
         game.batch.draw(blank, 0 ,0 , Gdx.graphics.getWidth() * health,5);
+        game.batch.draw(blank, 0 ,715 , Gdx.graphics.getWidth() * (float) boss.getBossHealth() ,5);
         game.batch.setColor(Color.WHITE);
         game.batch.draw((TextureRegion) rolls[roll].getKeyFrame(stateTime,true), x,y , (float) AIRCRAFT_WIDTH, (float) AIRCRAFT_HEIGHT);
         game.batch.end();
