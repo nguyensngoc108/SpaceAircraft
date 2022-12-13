@@ -37,8 +37,8 @@ public class BossScreen implements Screen {
     public static final float Max_Asteroid_Spawn_Time = 0.7f;
     public static final float Min_BigAsteroid_Spawn_Time = 0.5f;
     public static final float Max_BigAsteroid_Spawn_Time = 1.5f;
-    public static final float Max_SepAsteroid_Spawn_Time = 0.8f;
-    public static final float Min_SepAsteroid_Spawn_Time = 0.2f;
+    public static final float Max_SepAsteroid_Spawn_Time = 0.5f;
+    public static final float Min_SepAsteroid_Spawn_Time = 1.2f;
 
     public static  final int level = 3;
 
@@ -170,7 +170,7 @@ public class BossScreen implements Screen {
         }
         effects.removeAll(removeEffect);
 
-//        //Objectives spawn
+        //asteroid spawn
         asteroidSpawnTime -= delta;
         if (asteroidSpawnTime <= 0){
             asteroidSpawnTime = random.nextFloat() * (Max_Asteroid_Spawn_Time - Min_Asteroid_Spawn_Time) + Min_Asteroid_Spawn_Time;
@@ -324,7 +324,7 @@ public class BossScreen implements Screen {
         asteroids.removeAll(removeAsteroid);
         bullets.removeAll(bulletsToRemove);
 
-        //bulltet hit bigAsteroid
+        //bullet hit bigAsteroid
         for(Bullet bullet: bullets){
             for(BigAsteroid bigAsteroid: bigAsteroids){
                 if(bullet.getReact().collidesWith(bigAsteroid.getReact())){
@@ -340,6 +340,36 @@ public class BossScreen implements Screen {
             }
         }
         bigAsteroids.removeAll(removeBigAsteroid);
+        bullets.removeAll(bulletsToRemove);
+
+        //bullets hit sepAsteroid and seperated into 2 smallAsteroid
+        for(Bullet bullet: bullets){
+            for(BigAsteroid sepAsteroid: sepAsteroids){
+                if(bullet.getReact().collidesWith(sepAsteroid.getReact())){
+                    bulletsToRemove.add(bullet);
+                    removeSepAsteroid.add(sepAsteroid);
+                    effects.add(new Effect(sepAsteroid.getX(),sepAsteroid.getY()));
+
+                    //Spawn small asteroid
+                    smallAsteroids.add(new BigAsteroid(sepAsteroid.getX() + 10, sepAsteroid.getY() - 10,new Texture("SmallAsteroid.png"),16,16));
+                    smallAsteroids.add(new BigAsteroid(sepAsteroid.getX() - 10, sepAsteroid.getY(),new Texture("SmallAsteroid.png"),16,16));
+                }
+            }
+        }
+        sepAsteroids.removeAll(removeSepAsteroid);
+        bullets.removeAll(bulletsToRemove);
+
+        //bullet hit smallAsteroid
+        for(Bullet bullet: bullets) {
+            for (BigAsteroid smallAsteroid : smallAsteroids) {
+                if (bullet.getReact().collidesWith(smallAsteroid.getReact())) {
+                    bulletsToRemove.add(bullet);
+                    removeSmallAsteroid.add(smallAsteroid);
+                    effects.add(new Effect(smallAsteroid.getX(), smallAsteroid.getY()));
+                }
+            }
+        }
+        smallAsteroids.removeAll(removeSmallAsteroid);
         bullets.removeAll(bulletsToRemove);
 
         //bullets hit boss
@@ -393,35 +423,6 @@ public class BossScreen implements Screen {
         }
         bigAsteroids.removeAll(removeBigAsteroid);
 
-        //bullets hit sepAsteroid and seperated into 2 smallAsteroid
-        for(Bullet bullet: bullets){
-            for(BigAsteroid sepAsteroid: sepAsteroids){
-                if(bullet.getReact().collidesWith(sepAsteroid.getReact())){
-                    bulletsToRemove.add(bullet);
-                    removeSepAsteroid.add(sepAsteroid);
-                    effects.add(new Effect(sepAsteroid.getX(),sepAsteroid.getY()));
-
-                    //Spawn small asteroid
-                    smallAsteroids.add(new BigAsteroid(sepAsteroid.getX() + 10, sepAsteroid.getY() - 10,new Texture("SmallAsteroid.png"),16,16));
-                    smallAsteroids.add(new BigAsteroid(sepAsteroid.getX() - 10, sepAsteroid.getY(),new Texture("SmallAsteroid.png"),16,16));
-                }
-            }
-        }
-        sepAsteroids.removeAll(removeSepAsteroid);
-        bullets.removeAll(bulletsToRemove);
-
-        //bullet hit smallAsteroid
-        for(Bullet bullet: bullets) {
-            for (BigAsteroid smallAsteroid : smallAsteroids) {
-                if (bullet.getReact().collidesWith(smallAsteroid.getReact())) {
-                    bulletsToRemove.add(bullet);
-                    removeSmallAsteroid.add(smallAsteroid);
-                    effects.add(new Effect(smallAsteroid.getX(), smallAsteroid.getY()));
-                }
-            }
-        }
-        smallAsteroids.removeAll(removeSmallAsteroid);
-        bullets.removeAll(bulletsToRemove);
 
         //sepAsteroid hit player
         for (BigAsteroid sepAsteroid: sepAsteroids){
@@ -481,7 +482,17 @@ public class BossScreen implements Screen {
         asteroids.removeAll(removeAsteroid);
         sepAsteroids.removeAll(removeSepAsteroid);
 
-
+        // remove asteroid and smallAsteroid that are near
+        for(BigAsteroid asteroid : asteroids){
+            for(BigAsteroid smallAsteroid : smallAsteroids){
+                if( asteroid.getReact().collidesWith(smallAsteroid.getReact())){
+                    removeSmallAsteroid.add(smallAsteroid);
+                    removeAsteroid.add(asteroid);
+                }
+            }
+        }
+        asteroids.removeAll(removeAsteroid);
+        smallAsteroids.removeAll(removeSmallAsteroid);
 
 
         stateTime += delta;

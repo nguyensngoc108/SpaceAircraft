@@ -3,6 +3,7 @@ package com.mygdx.spaceaircraft.screen;
 import java.util.ArrayList;
 import java.util.Random;
 
+import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
@@ -17,6 +18,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.mygdx.spaceaircraft.SpaceAircraftMain;
 import com.mygdx.spaceaircraft.entity.Asteroid;
+import com.mygdx.spaceaircraft.entity.BigAsteroid;
 import com.mygdx.spaceaircraft.entity.Bullet;
 import com.mygdx.spaceaircraft.entity.Effect;
 import com.mygdx.spaceaircraft.setting.React;
@@ -25,7 +27,7 @@ import com.mygdx.spaceaircraft.setting.React;
 //Create a gameplay in main screen for the game
 public class MainScreen implements Screen {
 
-    public static final float SPEED = 350;
+    public static final float SPEED = 300;
     public static final float AIRCRAFT_Animation_Speed = 0.5f;
     public static final int AIRCARFT_HEIGHT_PIXEL = 32;
     public static final int AIRCARFT_WIDTH_PIXEL = 17;
@@ -33,10 +35,14 @@ public class MainScreen implements Screen {
     public static final int AIRCRAFT_HEIGHT = AIRCARFT_WIDTH_PIXEL*3;
 
     public static final float ROLL_SWITCH_TIME  = 0.15f;
-    public static final float SHOOT_TIME = 0.3f;
+    public static final float SHOOT_TIME = 0.5f;
 
     public static final float Min_Asteroid_Spawn_Time = 0.4f;
     public static final float Max_Asteroid_Spawn_Time = 0.7f;
+    public static final float Min_BigAsteroid_Spawn_Time = 0.4f;
+    public static final float Max_BigAsteroid_Spawn_Time = 0.7f;
+    public static final float Min_SepAsteroid_Spawn_Time = 0.4f;
+    public static final float Max_SepAsteroid_Spawn_Time = 0.7f;
 
 
 
@@ -54,10 +60,17 @@ public class MainScreen implements Screen {
     float rolltimer;
     float shootTimer;
     float asteroidSpawnTime;
+    float sepAsteroidSpawnTime;
+    float bigAsteroidSpawnTime;
+
     SpaceAircraftMain game;
 
     ArrayList<Bullet> bullets;
-    ArrayList<Asteroid> asteroids;
+    ArrayList<BigAsteroid> asteroids;
+    ArrayList<BigAsteroid> bigAsteroids;
+    ArrayList<BigAsteroid> sepAsteroids;
+    ArrayList<BigAsteroid> smallAsteroids;
+
     ArrayList<Effect> effects;
 
     React playerReact;
@@ -78,10 +91,15 @@ public class MainScreen implements Screen {
 
         random = new Random();
         asteroidSpawnTime = random.nextFloat() * (Max_Asteroid_Spawn_Time - Min_Asteroid_Spawn_Time) + Min_Asteroid_Spawn_Time;
+        sepAsteroidSpawnTime = random.nextFloat() * (Max_SepAsteroid_Spawn_Time - Min_SepAsteroid_Spawn_Time) + Min_SepAsteroid_Spawn_Time;
+        bigAsteroidSpawnTime = random.nextFloat() * (Max_BigAsteroid_Spawn_Time - Min_BigAsteroid_Spawn_Time) + Min_BigAsteroid_Spawn_Time;
 
         //Create an array for objectives
         bullets = new ArrayList<Bullet>();
-        asteroids = new ArrayList<Asteroid>();
+        asteroids = new ArrayList<BigAsteroid>();
+        sepAsteroids = new ArrayList<BigAsteroid>();
+        bigAsteroids = new ArrayList<BigAsteroid>();
+        smallAsteroids = new ArrayList<BigAsteroid>();
         effects = new ArrayList<Effect>();
         blank = new Texture("blank.png");
         playerReact = new React(0,0,AIRCRAFT_WIDTH,AIRCRAFT_HEIGHT);
@@ -153,21 +171,62 @@ public class MainScreen implements Screen {
         }
         effects.removeAll(removeEffect);
 
-//        //Objectives spawn
+//asteroid spawn
         asteroidSpawnTime -= delta;
         if (asteroidSpawnTime <= 0){
             asteroidSpawnTime = random.nextFloat() * (Max_Asteroid_Spawn_Time - Min_Asteroid_Spawn_Time) + Min_Asteroid_Spawn_Time;
-            asteroids.add(new Asteroid(random.nextInt(Gdx.graphics.getWidth() - Asteroid.WIDTH)));
+            asteroids.add(new BigAsteroid(random.nextInt(Gdx.graphics.getWidth() - 16),Gdx.graphics.getHeight(),new Texture("asteroid1.png"),16,16));
         }
 
+
         //Objectives update
-        ArrayList<Asteroid> removeAsteroid = new ArrayList<Asteroid>();
-        for(Asteroid asteroid: asteroids){
+        ArrayList<BigAsteroid> removeAsteroid = new ArrayList<BigAsteroid>();
+        for(BigAsteroid asteroid: asteroids){
             asteroid.update(delta);
             if (asteroid.remove)
                 asteroids.removeAll(removeAsteroid);
         }
 
+
+        //BigAsteroid spawn
+        bigAsteroidSpawnTime -= delta;
+        if (bigAsteroidSpawnTime <= 0){
+            bigAsteroidSpawnTime = random.nextFloat() * (Max_BigAsteroid_Spawn_Time - Min_BigAsteroid_Spawn_Time) + Min_BigAsteroid_Spawn_Time;
+
+            bigAsteroids.add(new BigAsteroid(random.nextInt(Gdx.graphics.getWidth() - 32 /*WIDTH of bigasteroid*/),Gdx.graphics.getHeight(), new Texture("bigAsteroid.png"),32,32));
+
+        }
+        //BigAsteroid update
+        ArrayList<BigAsteroid> removeBigAsteroid = new ArrayList<BigAsteroid>();
+        for(BigAsteroid bigAsteroid: bigAsteroids){
+            bigAsteroid.update(delta);
+            if (bigAsteroid.remove)
+                bigAsteroids.removeAll(removeBigAsteroid);
+        }
+
+        //sepAsteroid spawn
+        sepAsteroidSpawnTime -= delta;
+        if (sepAsteroidSpawnTime <= 0){
+            sepAsteroidSpawnTime = random.nextFloat() * (Max_SepAsteroid_Spawn_Time - Min_SepAsteroid_Spawn_Time) + Min_SepAsteroid_Spawn_Time;
+            sepAsteroids.add(new BigAsteroid(random.nextInt(Gdx.graphics.getWidth() - 32), Gdx.graphics.getHeight(), new Texture("Asteroid2.png"),32,32));
+        }
+
+        //SepAsteroid updates
+        ArrayList<BigAsteroid> removeSepAsteroid = new ArrayList<BigAsteroid>();
+        for(BigAsteroid sepAsteroid: sepAsteroids){
+            sepAsteroid.update(delta);
+            if (sepAsteroid.remove)
+                sepAsteroids.removeAll(removeSepAsteroid);
+        }
+
+
+        //Small asteroid update
+        ArrayList<BigAsteroid> removeSmallAsteroid = new ArrayList<BigAsteroid>();
+        for (BigAsteroid smallAsteroid : smallAsteroids) {
+            smallAsteroid.update(delta);
+            if (smallAsteroid.remove)
+                smallAsteroids.removeAll(removeSmallAsteroid);
+        }
         if (Gdx.input.isKeyPressed(Input.Keys.LEFT)){
             x -= SPEED * Gdx.graphics.getDeltaTime();
             //left border
@@ -236,8 +295,8 @@ public class MainScreen implements Screen {
         if (Gdx.input.isKeyPressed(Input.Keys.UP)){
             y += SPEED * Gdx.graphics.getDeltaTime();
         }
-        if (y+AIRCRAFT_HEIGHT > Gdx.graphics.getHeight()/2){
-            y =  Gdx.graphics.getHeight()/2 - AIRCRAFT_HEIGHT;
+        if (y+AIRCRAFT_HEIGHT > Gdx.graphics.getHeight()/3){
+            y =  Gdx.graphics.getHeight()/3 - AIRCRAFT_HEIGHT;
         }
         if (Gdx.input.isKeyPressed(Input.Keys.DOWN)){
             y -= SPEED * Gdx.graphics.getDeltaTime();
@@ -250,8 +309,9 @@ public class MainScreen implements Screen {
         //Update react objectives
         playerReact.move(x,y);
         //Loop
+        //bullet hits asteroid
         for(Bullet bullet: bullets){
-            for(Asteroid asteroid: asteroids){
+            for(BigAsteroid asteroid: asteroids){
                 if(bullet.getReact().collidesWith(asteroid.getReact())){
                     bulletsToRemove.add(bullet);
                     removeAsteroid.add(asteroid);
@@ -263,10 +323,114 @@ public class MainScreen implements Screen {
         asteroids.removeAll(removeAsteroid);
         bullets.removeAll(bulletsToRemove);
 
-        for (Asteroid asteroid: asteroids){
+        //bullet hit bigAsteroid
+        for(Bullet bullet: bullets){
+            for(BigAsteroid bigAsteroid: bigAsteroids){
+                if(bullet.getReact().collidesWith(bigAsteroid.getReact())){
+                    bulletsToRemove.add(bullet);
+                    bigAsteroid.decreaseHealth(0.5f);
+                    if(bigAsteroid.getBigAsteroidHealth() <= 0){
+                        removeBigAsteroid.add(bigAsteroid);
+                        effects.add(new Effect(bigAsteroid.getX(),bigAsteroid.getY()));
+                        score +=200;
+                    }
+                }
+            }
+        }
+        bigAsteroids.removeAll(removeBigAsteroid);
+        bullets.removeAll(bulletsToRemove);
+
+        //bullets hit sepAsteroid and seperated into 2 smallAsteroid
+        for(Bullet bullet: bullets){
+            for(BigAsteroid sepAsteroid: sepAsteroids){
+                if(bullet.getReact().collidesWith(sepAsteroid.getReact())){
+                    bulletsToRemove.add(bullet);
+                    removeSepAsteroid.add(sepAsteroid);
+                    effects.add(new Effect(sepAsteroid.getX(),sepAsteroid.getY()));
+                    score += 150;
+                    //Spawn small asteroid
+                    smallAsteroids.add(new BigAsteroid(sepAsteroid.getX() + 10, sepAsteroid.getY() - 10,new Texture("SmallAsteroid.png"),16,16));
+                    smallAsteroids.add(new BigAsteroid(sepAsteroid.getX() - 10, sepAsteroid.getY(),new Texture("SmallAsteroid.png"),16,16));
+                }
+            }
+        }
+        sepAsteroids.removeAll(removeSepAsteroid);
+        bullets.removeAll(bulletsToRemove);
+
+        //bullet hit smallAsteroid
+        for(Bullet bullet: bullets) {
+            for (BigAsteroid smallAsteroid : smallAsteroids) {
+                if (bullet.getReact().collidesWith(smallAsteroid.getReact())) {
+                    bulletsToRemove.add(bullet);
+                    removeSmallAsteroid.add(smallAsteroid);
+                    effects.add(new Effect(smallAsteroid.getX(), smallAsteroid.getY()));
+                    score += 50;
+                }
+            }
+        }
+        smallAsteroids.removeAll(removeSmallAsteroid);
+        bullets.removeAll(bulletsToRemove);
+
+
+
+        //asteroid hit player
+        for (BigAsteroid asteroid: asteroids){
             if(asteroid.getReact().collidesWith(playerReact)){
                 removeAsteroid.add(asteroid);
-                health -= 0.01;
+                effects.add(new Effect(asteroid.getX(),asteroid.getY()));
+                health -= 0.15;
+
+                //Game Lost
+                if (health <= 0){
+                    this.dispose();
+                    game.setScreen(new GameOver(game,score));
+                    return;
+                }
+            }
+        }
+        asteroids.removeAll(removeAsteroid);
+
+        //bigAsteroid hit player
+        for (BigAsteroid bigAsteroid: bigAsteroids){
+            if(bigAsteroid.getReact().collidesWith(playerReact)){
+                removeBigAsteroid.add(bigAsteroid);
+                effects.add(new Effect(bigAsteroid.getX(),bigAsteroid.getY()));
+                health -= 0.35;
+
+                //Game Lost
+                if (health <= 0){
+                    this.dispose();
+                    game.setScreen(new GameOver(game,score));
+                    return;
+                }
+            }
+        }
+        bigAsteroids.removeAll(removeBigAsteroid);
+
+
+        //sepAsteroid hit player
+        for (BigAsteroid sepAsteroid: sepAsteroids){
+            if(sepAsteroid.getReact().collidesWith(playerReact)){
+                removeSepAsteroid.add(sepAsteroid);
+                effects.add(new Effect(sepAsteroid.getX(),sepAsteroid.getY()));
+                health -= 0.2;
+
+                //Game Lost
+                if (health <= 0){
+                    this.dispose();
+                    game.setScreen(new GameOver(game,score));
+                    return;
+                }
+            }
+        }
+        sepAsteroids.removeAll(removeSepAsteroid);
+
+        //smallAsteroid hit player
+        for (BigAsteroid smallAsteroid: smallAsteroids){
+            if(smallAsteroid.getReact().collidesWith(playerReact)){
+                removeSmallAsteroid.add(smallAsteroid);
+                effects.add(new Effect(smallAsteroid.getX(),smallAsteroid.getY()));
+                health -= 0.1;
 
                 //Game Over
                 if (health <= 0){
@@ -276,6 +440,31 @@ public class MainScreen implements Screen {
                 }
             }
         }
+        smallAsteroids.removeAll(removeSmallAsteroid);
+
+        // remove bigAsteroid and sepAsteroid that are near
+        for(BigAsteroid bigAsteroid : bigAsteroids){
+            for(BigAsteroid sepAsteroid : sepAsteroids){
+                if( bigAsteroid.getReact().collidesWith(sepAsteroid.getReact())){
+                    removeSepAsteroid.add(sepAsteroid);
+                    removeBigAsteroid.add(bigAsteroid);
+                }
+            }
+        }
+        bigAsteroids.removeAll(removeBigAsteroid);
+        sepAsteroids.removeAll(removeSepAsteroid);
+
+        // remove asteroid and sepAsteroid that are near
+        for(BigAsteroid asteroid : asteroids){
+            for(BigAsteroid sepAsteroid : sepAsteroids){
+                if( asteroid.getReact().collidesWith(sepAsteroid.getReact())){
+                    removeSepAsteroid.add(sepAsteroid);
+                    removeAsteroid.add(asteroid);
+                }
+            }
+        }
+        asteroids.removeAll(removeAsteroid);
+        sepAsteroids.removeAll(removeSepAsteroid);
         stateTime += delta;
 
         ScreenUtils.clear(0.15f, 0.15f , 0.4f, 1);
@@ -289,8 +478,18 @@ public class MainScreen implements Screen {
             bullet.render(game.batch);
         }
 
-        for(Asteroid asteroid: asteroids){
+        for(BigAsteroid asteroid: asteroids){
             asteroid.render(game.batch);
+        }
+
+        for(BigAsteroid bigAsteroid: bigAsteroids){
+            bigAsteroid.render(game.batch);
+        }
+        for(BigAsteroid sepAsteroid: sepAsteroids){
+            sepAsteroid.render(game.batch);
+        }
+        for(BigAsteroid smallAsteroid: smallAsteroids){
+            smallAsteroid.render(game.batch);
         }
 
         for(Effect effect: effects){

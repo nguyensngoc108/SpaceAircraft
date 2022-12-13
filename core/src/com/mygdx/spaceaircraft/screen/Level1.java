@@ -256,6 +256,7 @@ public class Level1 implements Screen {
         //Update react objectives
         playerReact.move(x,y);
         //Loop
+        //bullet hit asteroid
         for(Bullet bullet: bullets){
             for(BigAsteroid asteroid: asteroids){
                 if(bullet.getReact().collidesWith(asteroid.getReact())){
@@ -274,7 +275,7 @@ public class Level1 implements Screen {
         for (Bullet bullet: bullets){
             if(bullet.getReact().collidesWith(boss.getReact())){
                 bulletsToRemove.add(bullet);
-                boss.decreaseBossHealth(0.02);
+                boss.decreaseBossHealth(0.04);
                 effects.add(new Effect(boss.getX(),boss.getY()));
 
                 //Game Complete

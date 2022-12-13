@@ -8,6 +8,8 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.mygdx.spaceaircraft.entity.Boss;
 import com.mygdx.spaceaircraft.screen.*;
 import com.mygdx.spaceaircraft.setting.Setting;
+import jdk.tools.jmod.Main;
+
 public class SpaceAircraftMain extends Game {
 
 	public static final int WIDTH = 480;
@@ -21,7 +23,7 @@ public class SpaceAircraftMain extends Game {
 		Music BGM_SOUND = Gdx.audio.newMusic(Gdx.files.internal("bgm.mp3"));
 		batch = new SpriteBatch();
 
-		this.setScreen(new BossScreen(this));
+		this.setScreen(new MainScreen(this));
 
 
 
