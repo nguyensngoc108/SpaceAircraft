@@ -6,11 +6,11 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.mygdx.spaceaircraft.setting.React;
 
 
-public class Asteroid {
+public class Asteroid implements Entity {
 
     public static final int SPEED = 100;
-    public static final int WIDTH = 32;
-    public static final int HEIGHT = 32;
+    public static final int WIDTH = 16;
+    public static final int HEIGHT = 16;
 
 
     public static Texture texture;
@@ -31,30 +31,30 @@ public class Asteroid {
     }
 
 
-
+    @Override
     public void update (float deltaTime){
         y -= SPEED * deltaTime;
         if (y < -HEIGHT)
             remove = true;
                 react.move(x,y);
-
-
+                
     }
 
 
-
+    @Override
     public void render(SpriteBatch batch){
 
-        batch.draw(texture,x,y);
+        batch.draw(texture,x,y,WIDTH,HEIGHT);
     }
+    @Override
     public React getReact(){
         return react;
     }
-
+    @Override
     public float getX(){
         return x;
     }
-
+    @Override
     public float getY(){
         return y;
     }
