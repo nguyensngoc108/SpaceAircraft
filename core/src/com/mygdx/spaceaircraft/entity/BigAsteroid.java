@@ -9,11 +9,10 @@ import com.mygdx.spaceaircraft.setting.React;
 public class BigAsteroid {
 
     public static final int SPEED = 100;
-    public static final int WIDTH = 32;
-    public static final int HEIGHT = 32;
+    public int WIDTH = 32;
+    public int HEIGHT = 32;
 
-
-    public static Texture texture;
+    public Texture texture;
 
     float x,y;
     float bigAsteroidHealth = 1;
@@ -21,14 +20,14 @@ public class BigAsteroid {
 
     public boolean remove = false;
 
-    public BigAsteroid(float x){
+    public BigAsteroid(float x, float y, Texture texture, int WIDTH, int HEIGHT){
         this.x = x;
-        this.y = Gdx.graphics.getHeight();
+        this.y = y;
+        this.WIDTH = WIDTH;
+        this.HEIGHT = HEIGHT;
         this.react = new React(x,y, WIDTH, HEIGHT);
 
-        if (texture == null){
-            texture =new Texture("bigAsteroid.png");
-        }
+        this.texture = texture;
     }
 
     public void decreaseHealth(){
@@ -51,8 +50,7 @@ public class BigAsteroid {
 
 
     public void render(SpriteBatch batch){
-
-        batch.draw(texture,x,y);
+        batch.draw(texture,x,y,WIDTH,HEIGHT);
     }
     public React getReact(){
         return react;
@@ -66,4 +64,10 @@ public class BigAsteroid {
         return y;
     }
 
+    public int getWIDTH(){
+        return this.WIDTH;
+    }
+    public int getHEIGHT(){
+        return this.HEIGHT;
+    }
 }
