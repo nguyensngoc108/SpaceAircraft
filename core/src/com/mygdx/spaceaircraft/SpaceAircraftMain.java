@@ -24,7 +24,7 @@ public class SpaceAircraftMain extends Game {
 		batch = new SpriteBatch();
 
 
-		this.setScreen(new Congratulation(this));
+		this.setScreen(new MenuScreen(this));
 
 
 

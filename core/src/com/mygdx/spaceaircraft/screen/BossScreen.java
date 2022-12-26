@@ -382,7 +382,7 @@ public class BossScreen implements Screen {
                 //Game Complete
                 if (boss.getBossHealth() <= 0){
                     this.dispose();
-                    game.setScreen(new LevelComplete(game,3));
+                    game.setScreen(new Congratulation(game));
                     return;
                 }
             }
