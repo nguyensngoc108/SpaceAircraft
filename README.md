@@ -45,6 +45,8 @@ The key is how you show your flexibility in this game.
 
 
 ## ⚙ Architecture
-
+<p align="center">
+<img src= "https://github.com/nguyensngoc108/SpaceAircraft/blob/final/assets/Diagram.png"/> 
+</p>
 
 
