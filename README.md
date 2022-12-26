@@ -16,7 +16,7 @@
 
 - __Category:__ **2D, Action, Shooting, Single player**
 
-  - __Lore:__
+-  __Lore:__
       _As the Earth becomes hotter, drought and disease ravage the population,
        Scientists look for a new planet - one that can support human life.
        In 2099, they found it. You and your teammates are sent by the government
@@ -31,11 +31,11 @@ The key is how you show your flexibility in this game.
 
 ### 👨‍👦‍👦 Us:
 - Team members:
-  - Dương Nguyễn Gia Khánh - ITDSIU20100
+  - Leader: Dương Nguyễn Gia Khánh - ITDSIU20100
   - Nguyễn Sỹ Nguyên Ngọc - ITDSIU20091
   - Đoàn Hữu Nguyên - ITITIU20260
   - Nguyễn Trung Kiên - ITDSIU20067
-  - Nguyễn Minh Hiếu - ITDSIU20073
+  - Nguyễn Minh Hiếu - ITDSIU20063
 
 ## Engines:
 - Java Language
