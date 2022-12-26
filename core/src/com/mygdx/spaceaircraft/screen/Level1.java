@@ -62,7 +62,7 @@ public class Level1 implements Screen {
 
     React playerReact;
     Texture blank;
-
+    Texture Background;
     Boss boss;
 
 
@@ -88,7 +88,7 @@ public class Level1 implements Screen {
         blank = new Texture("blank.png");
         boss = new Boss(new Texture("bossKien1.png"),new Texture("bossKien2.png"));
         playerReact = new React(0,0,AIRCRAFT_WIDTH,AIRCRAFT_HEIGHT);
-
+        Background = new Texture("BackgroundLevel1.jpg");
 
 
 
@@ -275,13 +275,13 @@ public class Level1 implements Screen {
         for (Bullet bullet: bullets){
             if(bullet.getReact().collidesWith(boss.getReact())){
                 bulletsToRemove.add(bullet);
-                boss.decreaseBossHealth(0.04);
+                boss.decreaseBossHealth(0.06);
                 effects.add(new Effect(boss.getX(),boss.getY()));
 
                 //Game Complete
                 if (boss.getBossHealth() <= 0){
                     this.dispose();
-                    game.setScreen(new GameOver(game,100));
+                    game.setScreen(new LevelComplete(game,level));
                     return;
                 }
             }
@@ -311,7 +311,7 @@ public class Level1 implements Screen {
 
         ScreenUtils.clear(0.15f, 0.15f , 0.4f, 1);
         game.batch.begin();
-
+        game.batch.draw(Background,0, 0);
 
         for(Bullet bullet: bullets){
             bullet.render(game.batch);

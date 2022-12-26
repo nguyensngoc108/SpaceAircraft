@@ -23,14 +23,16 @@ public class SpaceAircraftMain extends Game {
 		Music BGM_SOUND = Gdx.audio.newMusic(Gdx.files.internal("bgm.mp3"));
 		batch = new SpriteBatch();
 
-		this.setScreen(new MainScreen(this));
+
+		this.setScreen(new Congratulation(this));
 
 
 
 
-//		BGM_SOUND.setVolume(0.2f);
-//		BGM_SOUND.setLooping(true);
-//		BGM_SOUND.play();
+
+		BGM_SOUND.setVolume(0.2f);
+		BGM_SOUND.setLooping(true);
+		BGM_SOUND.play();
 
 
 	}

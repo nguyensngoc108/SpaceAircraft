@@ -70,7 +70,7 @@ public class Level2 implements Screen {
 
     React playerReact;
     Texture blank;
-
+    Texture Background;
     Random random;
     float health = 1;
 
@@ -95,7 +95,7 @@ public class Level2 implements Screen {
         sepAsteroids = new ArrayList<BigAsteroid>();
         smallAsteroids = new ArrayList<BigAsteroid>();
         boss = new Boss(new Texture("bossNgoc1.png"), new Texture("bossNgoc2.png"));
-
+        Background = new Texture("BackgroundLevel2.jpg");
 
 
 
@@ -386,12 +386,12 @@ public class Level2 implements Screen {
         for(Bullet bullet : bullets){
             if(bullet.getReact().collidesWith(boss.getReact())){
                 bulletsToRemove.add(bullet);
-                boss.decreaseBossHealth(0.03);
+                boss.decreaseBossHealth(0.05);
 
                 //Game complete
                 if(boss.getBossHealth() <= 0){
                     this.dispose();
-                    game.setScreen(new GameOver(game,100));
+                    game.setScreen(new LevelComplete(game,level));
                     return;
                 }
             }
@@ -416,6 +416,8 @@ public class Level2 implements Screen {
 
         ScreenUtils.clear(0.15f, 0.15f , 0.4f, 1);
         game.batch.begin();
+
+        game.batch.draw(Background, 0, 0);
 
         for(Bullet bullet: bullets){
             bullet.render(game.batch);

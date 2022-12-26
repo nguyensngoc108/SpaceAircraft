@@ -9,30 +9,49 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.utils.Align;
+import com.badlogic.gdx.utils.ScreenUtils;
 import com.mygdx.spaceaircraft.SpaceAircraftMain;
 
 public class GameOver implements Screen {
     SpaceAircraftMain game;
 
-    private static final int Banner_width = 350;
-    private static final int Banner_height = 100;
-    int score,highscore;
-    Texture gameOverBanner;
+    private static final int button_Width = 220;
+    private static final int button_Height = 35;
+    private static final int playAgain_Y = 230;
+    private static final int MainMenu_Y = 160;
+    private static final int Score_Width = 20;
+    private static final int Score_Y = 550;
+
+    private int HighScore;
+
+    int score;
+
+    private Texture backGround;
+    private Texture playAgain1;
+    private Texture playAgain2;
+    private Texture mainMenu1;
+    private Texture mainMenu2;
+
     BitmapFont scoreFont;
 
     public GameOver(SpaceAircraftMain game,int score){
         this.game = game;
         this.score= score;
+        playAgain1 = new Texture("PLayAgain(NoInteract).png");
+        playAgain2 = new Texture("PLayAgain(Interact).png");
+        mainMenu1 = new Texture("MainMenu(NoInteract).png");
+        mainMenu2 = new Texture("MainMenu(Interact).png");
+        backGround = new Texture("BGGameOver.png");
+
 
         Preferences preferences = Gdx.app.getPreferences("SpaceAircraft");
-        this.highscore = preferences.getInteger("HighScore", 0);
+        this.HighScore = preferences.getInteger("HighScore", 0);
 
-        if(score > highscore){
+        if(score > HighScore){
             preferences.putInteger("HighScore", score);
             preferences.flush();
         }
 
-        gameOverBanner = new Texture("game_over.png");
         scoreFont = new BitmapFont(Gdx.files.internal("fonts/scores.fnt"));
     }
 
@@ -44,53 +63,37 @@ public class GameOver implements Screen {
 
     @Override
     public void render(float delta) {
-        Gdx.gl.glClearColor(0,0,0,1);
-        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-        game.batch.begin();
+        ScreenUtils.clear(0.15f, 0.15f, 0.4f, 1);
+            game.batch.begin();
 
-
-        game.batch.draw(gameOverBanner, Gdx.graphics.getWidth() / 2- Banner_width/2,Gdx.graphics.getHeight()-Banner_height-15,Banner_width,Banner_height);
-        GlyphLayout scoreLayout = new GlyphLayout(scoreFont, "Score: \n" + score, Color.WHITE,0, Align.left,false);
-        GlyphLayout HighscoreLayout = new GlyphLayout(scoreFont, "HighScore: \n" + highscore, Color.WHITE,0, Align.left,false);
-        scoreFont.draw(game.batch, scoreLayout,Gdx.graphics.getWidth()/2 - scoreLayout.width/2, Gdx.graphics.getHeight() - Banner_height - 15 * 2);
-        scoreFont.draw(game.batch,HighscoreLayout,Gdx.graphics.getWidth()/2 - HighscoreLayout.width/2, Gdx.graphics.getHeight() - Banner_height - scoreLayout.height - 15 * 3);
-
-        GlyphLayout tryAgainLayout = new GlyphLayout(scoreFont,"Play Again");
-        GlyphLayout mainMenuLayout = new GlyphLayout(scoreFont, "Main Menu");
-
-        float playAgainX =Gdx.graphics.getWidth() / 2 - tryAgainLayout.width/2;
-        float playAgainY = Gdx.graphics.getHeight() /2 - tryAgainLayout.height/2;
-
-        float mainMenuX =Gdx.graphics.getWidth() / 2 - mainMenuLayout.width/2;
-        float mainMenuY = Gdx.graphics.getHeight() /2 - mainMenuLayout.height/2 - tryAgainLayout.height - 30;
-
+            game.batch.draw(backGround, 0, 0);
         //Draw button
-        scoreFont.draw(game.batch,tryAgainLayout,playAgainX,playAgainY);
-        scoreFont.draw(game.batch,mainMenuLayout,mainMenuX,mainMenuY);
+        int x = (SpaceAircraftMain.WIDTH / 2 - button_Width / 2);
 
-        float touchX = Gdx.input.getX();
-        float touchY = Gdx.graphics.getHeight() - Gdx.input.getY();
+        GlyphLayout scoreLayout = new GlyphLayout(scoreFont, "Score: \n" + score, Color.WHITE,0, Align.left,false);
+        GlyphLayout HighscoreLayout = new GlyphLayout(scoreFont, "HighScore: \n" + HighScore, Color.WHITE,0, Align.left,false);
+        scoreFont.draw(game.batch, scoreLayout,Score_Width, Score_Y);
+        scoreFont.draw(game.batch,HighscoreLayout, 20, 470);
 
 
+        //playAgain button
+        if (Gdx.input.getX() < x + button_Width && Gdx.input.getX() > x && SpaceAircraftMain.HEIGHT - Gdx.input.getY() < playAgain_Y + button_Height && SpaceAircraftMain.HEIGHT - Gdx.input.getY() > playAgain_Y){
+            game.batch.draw(playAgain2, SpaceAircraftMain.WIDTH/2 - button_Width/2, playAgain_Y, button_Width, button_Height);
+            if (Gdx.input.isTouched()) {
+                    game.setScreen(new MainScreen(game));
+                }
+        } else {
+            game.batch.draw(playAgain1, SpaceAircraftMain.WIDTH/2- button_Width/2, playAgain_Y, button_Width, button_Height);
+        }
 
-        //Play Again button click
-        if(Gdx.input.isTouched()){
-            //PlayAgain
-            if( touchX > playAgainX && touchX < playAgainX + tryAgainLayout.width && touchY > playAgainY - tryAgainLayout.height && touchY< playAgainY){
-                this.dispose();
-                game.batch.end();
-                game.setScreen(new MainScreen(game));
-                return;
-            }
-            //Menu
-            if( touchX > mainMenuX && touchX < mainMenuX + mainMenuLayout.width && touchY > mainMenuY - mainMenuLayout.height && touchY < mainMenuY){
-                this.dispose();
-                game.batch.end();
+        //mainMenu button
+        if (Gdx.input.getX() < x + button_Width && Gdx.input.getX() > x && SpaceAircraftMain.HEIGHT - Gdx.input.getY() < MainMenu_Y + button_Height && SpaceAircraftMain.HEIGHT - Gdx.input.getY() > MainMenu_Y) {
+            game.batch.draw(mainMenu2, SpaceAircraftMain.WIDTH/2 - button_Width/2, MainMenu_Y, button_Width, button_Height);
+            if (Gdx.input.isTouched()) {
                 game.setScreen(new MenuScreen(game));
-                return;
             }
-
-
+        } else {
+            game.batch.draw(mainMenu1, SpaceAircraftMain.WIDTH/2 - button_Width/2, MainMenu_Y, button_Width, button_Height);
         }
 
         game.batch.end();

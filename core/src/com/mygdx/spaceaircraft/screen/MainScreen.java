@@ -102,7 +102,7 @@ public class MainScreen implements Screen {
         smallAsteroids = new ArrayList<BigAsteroid>();
         effects = new ArrayList<Effect>();
         blank = new Texture("blank.png");
-        playerReact = new React(0,0,AIRCRAFT_WIDTH,AIRCRAFT_HEIGHT);
+            playerReact = new React(0,0,AIRCRAFT_WIDTH,AIRCRAFT_HEIGHT);
 
         //Import fonts score
         scoreFont = new BitmapFont((Gdx.files.internal("fonts/scores.fnt")));
@@ -124,7 +124,7 @@ public class MainScreen implements Screen {
         rolls[3] = new Animation(AIRCRAFT_Animation_Speed,rollSpriteSheet[3]);
         rolls[4] = new Animation(AIRCRAFT_Animation_Speed, rollSpriteSheet[4]);//To the right
 
-        Background = new Texture("imgur_com.jpg");
+        Background = new Texture("BackgroundEndless.jpg");
     }
 
 
