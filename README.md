@@ -32,10 +32,15 @@ The key is how you show your flexibility in this game.
 ### 👨‍👦‍👦 Us:
 - Team members:
   - Leader: Dương Nguyễn Gia Khánh - ITDSIU20100
-  - Nguyễn Sỹ Nguyên Ngọc - ITDSIU20091
-  - Đoàn Hữu Nguyên - ITITIU20260
-  - Nguyễn Trung Kiên - ITDSIU20067
-  - Nguyễn Minh Hiếu - ITDSIU20063
+  
+| No  | Name                            | ID           | Main Contributes                                                                                     | Contacts                                                                                                                                |
+|-----|---------------------------------|--------------|------------------------------------------------------------------------------------------------------|-----------------------------------------------------------------------------------------------------------------------------------------|
+| 1   | **Dương Nguễn Gia Khánh** 👨‍💻 | ITDSIU20100  | Game Developer, Game artist, Debug & fixing code, Idea contributor Tasks distributor, Tasks Tracker. | [Github](https://github.com/GiaKhanhs) [Facebook](https://www.facebook.com/profile.php?id=100010473340237)|
+| 2   | **Nguyễn Sỹ Nguyên Ngọc** 👨🏻‍💻 | ITDSIU20091  | Game Developer, Idea contributor, Debug & fixing code, Quality Checker, Tasks distributor.           | [Github](https://github.com/nguyengoc16) [Facebook](https://www.facebook.com/nguyengoc61)|
+| 3   | **Đoàn Hữu Nguyên** 👨🏻‍💻     | ITITIU20260  | Github repository host, Game Developer, Debug & fixing code, Game Sounds & Music.                    | [Github](https://github.com/nguyensngoc108) [Facebook](https://www.facebook.com/NeyAndUgn)|
+| 4   | **Nguyễn Trung Kiên** 🧑🏻‍🎨    | ITDSIU20067  | Game designer, Game artist, Slide, Thoughts & Ideas Gatherer, Idea contributor.                      | [Github](https://github.com/K13Z) [Facebook](https://www.facebook.com/nguyenkienhadong)|
+| 5   | **Nguyễn Minh Hiếu** 👦🏻👱🏻‍♀️✍ | ITDSIU20063  | Game designer, Script Writer, Thoughts & Ideas Gatherer, Idea contributor, Game Sounds & Music.      | [Github](https://github.com/MinhHeiu) [Facebook](https://www.facebook.com/profile.php?id=100009428226835)|
+
 
 ## Engines:
 - Java Language
