@@ -1,8 +1,3 @@
-Revision: 0.0.1
-
-
-> GDD Template Written by: Benjamin “HeadClot” Stanley
-
 
 - Overview
   - Theme / Setting / Genre
@@ -31,7 +26,6 @@ Revision: 0.0.1
   - Gameplay (Detailed)
 - Assets Needed
   - 2D
-  - 3D
   - Sound
   - Code
   - Animation
