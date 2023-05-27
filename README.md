@@ -8,6 +8,7 @@
 * [About](#About)
 * [Engines](#Engines)
 * [Architecture](#Architecture)
+* [Data Structure and Algorithm](#Data Structure and Algorithm)
 
 ---
 ## About
@@ -40,7 +41,6 @@ The key is how you show your flexibility in this game.
 | 2   | **Nguyễn Sỹ Nguyên Ngọc** 🎅💻 | ITDSIU20091  | Game Developer, Idea contributor, Debug & fixing code, Quality Checker, Tasks distributor.           | [Github](https://github.com/nguyengoc16) [Facebook](https://www.facebook.com/nguyengoc61)|
 | 3   | **Đoàn Hữu Nguyên** 👨🏻‍💻    | ITITIU20260  | Github repository host, Game Developer, Debug & fixing code, Game Sounds & Music.                    | [Github](https://github.com/nguyensngoc108) [Facebook](https://www.facebook.com/NeyAndUgn)|
 | 4   | **Nguyễn Trung Kiên** 🧑🏻‍🎨   | ITDSIU20067  | Game designer, Game artist, Slide, Thoughts & Ideas Gatherer, Idea contributor.                      | [Github](https://github.com/K13Z) [Facebook](https://www.facebook.com/nguyenkienhadong)|
-| 5   | **Nguyễn Minh Hiếu** 👦🏻👱🏻‍♀️✍ | ITDSIU20063  | Game designer, Script Writer, Thoughts & Ideas Gatherer, Idea contributor, Game Sounds & Music.      | [Github](https://github.com/MinhHeiu) [Facebook](https://www.facebook.com/profile.php?id=100009428226835)|
 
 
 ## Engines:
@@ -52,7 +52,8 @@ The key is how you show your flexibility in this game.
 
 ## ⚙ Architecture
 <p align="center">
-<img src= "https://github.com/nguyensngoc108/SpaceAircraft/blob/final/assets/Diagram.png"/> 
+<img src= ""/> 
 </p>
 
 
+## Data Structure and Algorithm
